@@ -1,0 +1,16 @@
+[package]
+name = "suckless_anti_cheat"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "1.16.1", features = ["full"] }
+clap = { version = "4.1.8", features = ["derive"] }
+rand = "0.8.5"
+screenshots = "0.5.2"
+sysinfo = "0.28.2"
+ctrlc = "3.2.5"
+async-trait = "0.1.66"
+crypto = "0.4.0"
