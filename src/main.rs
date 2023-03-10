@@ -15,6 +15,7 @@ use ctrlc;
 pub mod tick;
 pub mod screenshot;
 pub mod cfg;
+mod device;
 
 
 #[tokio::main]
