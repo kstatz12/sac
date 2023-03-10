@@ -6,7 +6,7 @@ there is a need for community driven gaming leagues for a simple, crossplatform 
 - [x] Random ScreenShot Interval
 - [ ] Hashing And Reading Game Specific Configurations
 - [ ] Monitoring All Running Processes
-- [ ] Any Processes Started After Game Start
+- [ ] Recording Any Processes Started After Game Start
 - [ ] Clean Packaging Of Anti Cheat Assets
 
 
