@@ -1,38 +1,32 @@
 use device_query::MousePosition;
 
-struct MouseHistory {
-    history: Vec<Box<Point>>,
-}
-
 struct MouseHandler {
-    1
+    history: Vec<Box<Point>>,
 }
 
 impl MouseHandler
 {
     fn new() -> Self {
+        MouseHandler { history: Vec::new() }
+    }
+
+    pub fn start(&mut self) {
 
     }
 }
 
 struct Point {
-    x: u32,
-    y: u32
+    x: i32,
+    y: i32
 }
 
 impl Point {
-    fn new(x: u32, y: u32) -> Self {
+    fn new(x: i32, y: i32) -> Self {
        return Point { x, y };
     }
 
     fn adapt(pos: MousePosition) -> Box<Point> {
         let (x, y) = pos;
-        return Box<Point>::new(Point::new(x, y));
-    }
-}
-
-impl MouseHistory {
-    async fn save(&mut self, pos: MousePosition) {
-        self.history.push(Point::adapt(pos));
+        return Box::<Point>::new(Point::new(x, y));
     }
 }
