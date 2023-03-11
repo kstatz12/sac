@@ -1,7 +1,7 @@
-use device_query::MousePosition;
+use device_query::{MousePosition, DeviceState, DeviceEvents};
 
 struct MouseHandler {
-    history: Vec<Box<Point>>,
+    history: Vec<Point>,
 }
 
 impl MouseHandler
@@ -10,8 +10,12 @@ impl MouseHandler
         MouseHandler { history: Vec::new() }
     }
 
-    pub fn start(&mut self) {
-
+    pub fn start(&self) {
+        let ds = DeviceState::new();
+        let h = self.history.clone();
+        ds.on_mouse_move(move |p| {
+            self.history.push(Point::adapt(p));
+        });
     }
 }
 
@@ -25,8 +29,8 @@ impl Point {
        return Point { x, y };
     }
 
-    fn adapt(pos: MousePosition) -> Box<Point> {
-        let (x, y) = pos;
-        return Box::<Point>::new(Point::new(x, y));
+    fn adapt(pos: &MousePosition) -> Point {
+        let (x, y) = *pos;
+        return Point::new(x, y);
     }
 }
