@@ -40,7 +40,7 @@ impl Dispatch {
         });
     }
 
-    pub fn register_handler<T>(&mut self, key: String, f: fn()) {
+    pub fn register_handler(&mut self, key: String, f: fn()) {
         self.handlers.insert(key, f);
     }
 
