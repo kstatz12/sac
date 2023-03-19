@@ -1,21 +1,33 @@
 use screenshots::{Screen, Image};
 
-pub struct ScreenShot {
+use crate::common::{Job, Startable, Stoppable};
+
+pub struct ScreenShotService {
     screens: Vec<Screen>,
     images: Vec<Image>
 }
 
-
-impl ScreenShot {
+impl ScreenShotService {
     pub fn new() -> Self {
-        ScreenShot { screens: Screen::all().unwrap(), images: Vec::new() }
+        ScreenShotService { screens: Screen::all().expect("Could Not Initialize Screens"), images: Vec::new() }
     }
 
-    pub fn capture(&mut self) {
+    fn capture(&mut self) {
         for s in &self.screens {
-           let image = s.capture().unwrap();
+           let image = s.capture().expect("Could Not Capture Screen");
            self.images.push(image);
        }
     }
 }
 
+impl Startable for ScreenShotService {
+    fn start(&mut self) {
+        self.capture();
+    }
+}
+
+impl Stoppable for ScreenShotService {
+    fn stop(&mut self, on_stop: fn(c: &mut Self)) {
+        on_stop(self);
+    }
+}

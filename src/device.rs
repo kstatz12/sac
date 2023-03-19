@@ -1,19 +1,21 @@
-use std::{time::{Instant, SystemTime, UNIX_EPOCH}, sync::{Mutex, Arc}};
+use std::{time::{Instant, SystemTime, UNIX_EPOCH}, sync::{Mutex, Arc}, borrow::BorrowMut};
 
 use device_query::{MousePosition, DeviceState, DeviceEvents};
 use tokio::sync::mpsc;
 
-struct MouseHandler {
+use crate::common::{Startable, Stoppable};
+
+pub struct MouseService {
     history: Vec<Point>
 }
 
-impl MouseHandler
+impl MouseService
 {
     pub fn new() -> Self {
-        MouseHandler { history: Vec::new() }
+        MouseService { history: Vec::new() }
     }
 
-    pub async fn start(&mut self) {
+    async fn capture(&mut self) {
         let ds = DeviceState::new();
         let (tx, mut rx) = mpsc::channel::<MousePosition>(1000);
         let _guard = ds.on_mouse_move(move |p| {
@@ -27,6 +29,18 @@ impl MouseHandler
         while let Some(pos) = rx.recv().await {
             self.history.push(Point::adapt(&pos));
         }
+    }
+}
+
+impl Startable for MouseService {
+    fn start(&mut self) {
+        self.capture();
+    }
+}
+
+impl Stoppable for MouseService {
+    fn stop(&mut self, on_stop: fn(c: &mut MouseService)) {
+        on_stop(self);
     }
 }
 
